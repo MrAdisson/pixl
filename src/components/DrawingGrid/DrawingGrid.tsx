@@ -68,6 +68,7 @@ const DrawingGrid = ({
               {row.map((color, columnIndex) => (
                 <Pixel
                   initialColor={color}
+                  pixelArray={pixelArray}
                   coordinate={{ x: columnIndex, y: rowIndex }}
                   zoom={zoom}
                   key={`Pixel${rowIndex}_${columnIndex}`}

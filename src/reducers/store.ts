@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import fileReducer from './reducers/fileReducer';
-import mouseReducer from './reducers/mouseReducer';
-import toolsReducer from './reducers/toolsReducer';
+import fileReducer from './fileReducer';
+import mouseReducer from './mouseReducer';
+import toolsReducer from './toolsReducer';
 // ...
 
 export const store = configureStore({

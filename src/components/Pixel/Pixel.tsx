@@ -8,9 +8,10 @@ interface Props {
   initialColor: Color;
   coordinate: { x: number; y: number };
   zoom: number;
+  pixelArray: Color[][];
 }
 
-const Pixel = ({ initialColor, coordinate, zoom }: Props) => {
+const Pixel = ({ initialColor, coordinate, zoom, pixelArray }: Props) => {
   const [isHover, setIsHover] = useState(false);
   const [pixelColor, setPixelColor] = useState<Color>(initialColor);
 
@@ -27,7 +28,7 @@ const Pixel = ({ initialColor, coordinate, zoom }: Props) => {
 
   useEffect(() => {
     setPixelColor(initialColor);
-  }, [initialColor]);
+  }, [initialColor, pixelArray]);
 
   const mouseLeave = () => setIsHover(false);
 

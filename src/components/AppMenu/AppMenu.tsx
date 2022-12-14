@@ -37,7 +37,7 @@ const AppMenu = () => {
     console.log(inputFile.current);
   }, [inputFile]);
   return (
-    <div>
+    <div style={{ alignSelf: 'flex-start' }}>
       <input
         type='file'
         id='file'

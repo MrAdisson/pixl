@@ -1,22 +1,13 @@
 import React, { CSSProperties, useEffect } from 'react';
 import AppMenu from '../AppMenu/AppMenu';
-import { CompactPicker } from 'react-color';
 import DrawingGrid from '../DrawingGrid/DrawingGrid';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-  drawMode,
-  eyedropperMode,
-  grabMode,
-  setBrushColor,
-  setGridVisibility,
-} from '../../reducers/toolsReducer';
+import { useAppDispatch } from '../../hooks/redux';
 import { setMouseDown } from '../../reducers/mouseReducer';
+import ToolsBar from '../ToolsBar/ToolsBar';
 
 const Editor = () => {
   const dispatch = useAppDispatch();
 
-  const brushColor = useAppSelector((state) => state.tools.brushSettings.brushColor);
-  const isGridVisible = useAppSelector((state) => state.tools.gridSettings.visible);
   useEffect(() => {
     const handleMouseDown = (e: MouseEvent) => {
       e.preventDefault();
@@ -34,31 +25,10 @@ const Editor = () => {
   }, [dispatch]);
 
   return (
-    <div className='editor' style={styles.mainContainer as CSSProperties}>
+    <div style={styles.mainContainer as CSSProperties}>
       <AppMenu />
-      <div id='tools' style={{ display: 'flex', flexDirection: 'row' }}>
-        <CompactPicker
-          onChange={(e) => {
-            dispatch(drawMode());
-            dispatch(setBrushColor(e.hex));
-          }}
-        />
-        <div style={{ height: 30, width: 30, backgroundColor: brushColor }}></div>
-        <button onClick={() => dispatch(grabMode())}> grab</button>
-        <button onClick={() => dispatch(drawMode())}> draw</button>
-        <button onClick={() => dispatch(eyedropperMode())}> PIPETTE</button>
-        <label>
-          <input
-            id='gridVisibilityCheckbox'
-            type='checkbox'
-            onChange={(e) => dispatch(setGridVisibility(e.target.checked))}
-            checked={isGridVisible}
-          />
-          SHOW GRID
-        </label>
-      </div>
-
-      <div id='editor_container' style={styles.editorContainer}>
+      <ToolsBar />
+      <div className='editor' id='editor_container' style={styles.editorContainer}>
         <DrawingGrid height={16} width={16} />
       </div>
     </div>
