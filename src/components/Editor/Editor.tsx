@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect } from 'react';
 import AppMenu from '../AppMenu/AppMenu';
-import { GithubPicker } from 'react-color';
+import { CompactPicker } from 'react-color';
 import DrawingGrid from '../DrawingGrid/DrawingGrid';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
@@ -37,7 +37,7 @@ const Editor = () => {
     <div className='editor' style={styles.mainContainer as CSSProperties}>
       <AppMenu />
       <div id='tools' style={{ display: 'flex', flexDirection: 'row' }}>
-        <GithubPicker
+        <CompactPicker
           onChange={(e) => {
             dispatch(drawMode());
             dispatch(setBrushColor(e.hex));

@@ -2,7 +2,8 @@ import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { Color } from '../../types/Color';
 import Pixel from '../Pixel/Pixel';
 import Draggable from 'react-draggable';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { initFile } from '../../reducers/fileReducer';
 
 const DrawingGrid = ({
   height = 16,
@@ -24,11 +25,24 @@ const DrawingGrid = ({
 
   const defaultSizedArray = Array(height).fill(Array(width).fill('white'));
 
-  const pixelArray = useRef<Color[][]>(defaultSizedArray);
+  const [pixelArray, setPixelArray] = useState<Color[][]>(defaultSizedArray);
 
   const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM);
-
   const tools = useAppSelector((state) => state.tools);
+  const dispatch = useAppDispatch();
+  const openedFile = useAppSelector((state) => state.file.openedFile);
+
+  useEffect(() => {
+    dispatch(initFile(defaultSizedArray));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!(openedFile.length > 0)) return;
+    console.log('ON UPDATE LE PIXEL ARRAY');
+    setPixelArray(openedFile);
+  }, [openedFile]);
+
+  console.log('re render');
   return (
     <Draggable disabled={!(tools.mode === 'GRAB')}>
       <div
@@ -44,12 +58,16 @@ const DrawingGrid = ({
         }}
         style={styles.gridContainer as CSSProperties}
       >
-        {pixelArray.current.map((row, rowIndex) => {
+        {pixelArray.map((row, rowIndex) => {
           return (
-            <div className='row' style={{ display: 'flex', flexDirection: 'row' }}>
+            <div
+              className='row'
+              style={{ display: 'flex', flexDirection: 'row' }}
+              key={`Row${rowIndex}`}
+            >
               {row.map((color, columnIndex) => (
                 <Pixel
-                  color={color}
+                  initialColor={color}
                   coordinate={{ x: columnIndex, y: rowIndex }}
                   zoom={zoom}
                   key={`Pixel${rowIndex}_${columnIndex}`}
